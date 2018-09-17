@@ -52,3 +52,7 @@ input:focus {
   margin-left: 30px;
   color: red;
 }
+
+a {
+  color: hotpink;
+}

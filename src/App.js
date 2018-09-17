@@ -23,6 +23,7 @@ class App extends Component {
       actionActiveInputKey: '',
       actionInputs: [],
       systemCheckInputs: [],
+      passwordInputs: [],
       praiseIndex: 0,
       reset: false,
       dynahack: false 
@@ -142,8 +143,12 @@ class App extends Component {
   }
 
   handleHackInput(e) {
+    let value = e.target.value;
     if (e.key === 'Enter') {
-      switch(e.target.value.toLowerCase()) {
+      this.setState(prevState => ({
+        passwordInputs: [...prevState.passwordInputs, value]
+      }));
+      switch(value.toLowerCase()) {
         case "dynahack":
           this.addActionMessage("> VARNING FEL", 1000);
           this.addActionMessage("> vArNinG feL", 1500);
@@ -172,6 +177,7 @@ class App extends Component {
   render() {
     let inputIndex = -1;
     let systemCheckIndex = -1;
+    let passwordIndex = -1;
     return (
       <div className="App">
         {this.state.messages.map((message, key) => {
@@ -208,8 +214,9 @@ class App extends Component {
                 <SystemCheck index={systemCheckIndex} systemCheckInputs={this.state.systemCheckInputs} onKeyPress={this.handleSystemInput.bind(this)} />
               )
             } else if(message === "systemClean") {
+              passwordIndex++;
               return (
-                <SystemClean onKeyPress={this.handleHackInput.bind(this)} />
+                <SystemClean index={passwordIndex} passwordInputs={this.state.passwordInputs} onKeyPress={this.handleHackInput.bind(this)} />
               )
             } else if (message === "corruptFiles") {
               return (
@@ -302,8 +309,12 @@ function CorruptFiles() {
 function SystemClean(props) {
   return (
     <div className='user-input'>
-        <span>> AnGE LÖseN0rD fÖr AtT REnsA sYStEmet: 
-          <input autoFocus type="text" name="action" onKeyPress={props.onKeyPress}></input>
+        <span>> AnGE LÖseN0rD fÖr AtT REnsA sYStEmet:
+          {props.index >= props.passwordInputs.length ? 
+            <input autoFocus type="text" name="action" onKeyPress={props.onKeyPress}></input>
+            :
+            <span> {props.passwordInputs[props.index]}</span>
+          }
         </span>
     </div>
   )
@@ -334,7 +345,7 @@ function Dynahack(props) {
       <br/>
       <div>Mat bjuds det på, anmäl dig på länken nedan om du vill ha, annars är det bara att dyka upp.</div>
       <br/>
-      <div>länk</div>
+      <div><a href="https://goo.gl/forms/EnQCB7t388N3DO1j2">> Klicka för att komma till formuläret</a></div>
       <br/>
       <div>Vi ses!</div>
       <div>/ Ellinor och Simon G</div>
