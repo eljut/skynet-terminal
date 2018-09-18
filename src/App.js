@@ -378,7 +378,7 @@ function Dynahack(props) {
       <br/>
       <div>Mat bjuds det på, anmäl dig på länken nedan om du vill ha, annars är det bara att dyka upp.</div>
       <br/>
-      <div><a href="https://goo.gl/forms/EnQCB7t388N3DO1j2">> Klicka för att komma till formuläret</a></div>
+      <div><a href="https://goo.gl/forms/EnQCB7t388N3DO1j2" target="_blank">> Klicka för att komma till formuläret</a></div>
       <br/>
       <div>Vi ses!</div>
       <div>/ Ellinor och Simon G</div>
