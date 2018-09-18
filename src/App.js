@@ -14,25 +14,29 @@ const dynahackStartMessages = {1000: "> Initierar program...", 2000: "> Ny uppko
 4000: ".", 5000: ".", 6000: ".", 6500: "> Anslutning upprättad", 6600: "-----"}
 
 class App extends Component {
-  state = {
-      messages: [],
-      actionMessages: [],
-      userNameInput: false,
-      userName: '',
-      loggedIn: false,
-      actionActiveInputKey: '',
-      actionInputs: [],
-      systemCheckInputs: [],
-      passwordInputs: [],
-      praiseIndex: 0,
-      reset: false,
-      dynahack: false 
-  };
+  constructor() {
+    super();
+    this._inputs = [];
+    this.state = {
+        messages: [],
+        actionMessages: [],
+        userNameInput: false,
+        userName: '',
+        loggedIn: false,
+        actionActiveInputKey: '',
+        actionInputs: [],
+        systemCheckInputs: [],
+        passwordInputs: [],
+        praiseIndex: 0,
+        reset: false,
+        dynahack: false 
+    };
+
+    this.refCallback = this.refCallback.bind(this);
+  }
 
   componentDidMount() {
-    for(var delay in startMessages) {
-      this.addStartMessage(startMessages[delay], delay);
-    };
+    this.start();
   }
 
   componentDidUpdate() {
@@ -41,6 +45,12 @@ class App extends Component {
 
   scrollToBottom = () => {
     this.messagesEnd.scrollIntoView();
+  }
+
+  start() {
+    for(var delay in startMessages) {
+      this.addStartMessage(startMessages[delay], delay);
+    };
   }
 
   reset() {
@@ -110,8 +120,9 @@ class App extends Component {
           this.addActionMessage("> Rensar historik...", 0);
           this.addActionMessage("> Hej då!", 1000);
           setTimeout(function() {
-            this.setState({messages: [], actionMessages: [], userName: '', loggedIn: false, reset: true})
+            this.setState({messages: [], actionMessages: [], userName: '', loggedIn: false, reset: false})
           }.bind(this), 3000);
+          setTimeout(function() { this.start() }.bind(this), 4000);
           break;
         default:
           for(var delay in forbiddenInput) {
@@ -174,18 +185,33 @@ class App extends Component {
     }
   }
 
+  refCallback(ref) {
+    console.log(this._inputs);
+    if(ref) {
+      this._inputs.push(ref);
+    }
+  }
+
+  focusInput() {
+    console.log(this._inputs);
+    if(this._inputs.length > 0 ) {
+      this._inputs[this._inputs.length - 1].focus();
+    }
+  }
+
   render() {
     let inputIndex = -1;
     let systemCheckIndex = -1;
     let passwordIndex = -1;
+
     return (
-      <div className="App">
+      <div className="App" onClick={() => this.focusInput()}>
         {this.state.messages.map((message, key) => {
           if(message === "enterUserName") {
             if(this.state.userNameInput) {
               return(
                 <div key={key} className='user-input'>> Ange användarnamn: 
-                  <input autoFocus type="text" name="userName" onKeyPress={this.handleNameInput.bind(this)}></input>
+                  <input autoFocus ref={this.refCallback} type="text" name="userName" onKeyPress={this.handleNameInput.bind(this)}></input>
                 </div>
               )} else { 
               return ( <div key={key} className='user-input'>> Ange användarnamn: {this.state.userName}</div> )
@@ -203,7 +229,8 @@ class App extends Component {
             if(message === "init") {
               inputIndex++;
               return (
-                <Actions userName={this.state.userName} index={inputIndex} actionInputs={this.state.actionInputs} onKeyPress={this.handleActionInput.bind(this)}/>
+                <Actions userName={this.state.userName} index={inputIndex} actionInputs={this.state.actionInputs} inputRef={this.refCallback}
+                onKeyPress={this.handleActionInput.bind(this)}/>
               )} else if(message === "praise") {
               return (
                 <PraiseSkynet />
@@ -211,12 +238,12 @@ class App extends Component {
             } else if(message === "systemCheck") {
               systemCheckIndex++;
               return (
-                <SystemCheck index={systemCheckIndex} systemCheckInputs={this.state.systemCheckInputs} onKeyPress={this.handleSystemInput.bind(this)} />
+                <SystemCheck index={systemCheckIndex} systemCheckInputs={this.state.systemCheckInputs} inputRef={this.refCallback} onKeyPress={this.handleSystemInput.bind(this)} />
               )
             } else if(message === "systemClean") {
               passwordIndex++;
               return (
-                <SystemClean index={passwordIndex} passwordInputs={this.state.passwordInputs} onKeyPress={this.handleHackInput.bind(this)} />
+                <SystemClean index={passwordIndex} passwordInputs={this.state.passwordInputs} inputRef={this.refCallback} onKeyPress={this.handleHackInput.bind(this)} />
               )
             } else if (message === "corruptFiles") {
               return (
@@ -260,7 +287,7 @@ function Actions(props) {
       <div className='user-input'>
         <span>> Ange siffra:
           {props.index >= props.actionInputs.length ?
-            <input autoFocus type="text" name="action" onKeyPress={props.onKeyPress}></input>
+            <input autoFocus ref={props.inputRef} type="text" name="action" onKeyPress={props.onKeyPress}></input>
             :
             <span> {props.actionInputs[props.index]}</span>
           } 
@@ -282,7 +309,7 @@ function SystemCheck(props) {
     <div className='user-input'>
         <span>> Kör systemkontroll? y/n:
           {props.index >= props.systemCheckInputs.length ?
-            <input autoFocus type="input" name="action" onKeyPress={props.onKeyPress}></input>
+            <input autoFocus ref={props.inputRef} type="input" name="action" onKeyPress={props.onKeyPress}></input>
             :
             <span> {props.systemCheckInputs[props.index]}</span>
           }
@@ -309,9 +336,15 @@ function CorruptFiles() {
 function SystemClean(props) {
   return (
     <div className='user-input'>
+        {props.index === 3 ?
+          <div>
+            hint: for(file in corruptFiles) return file.charAt(0)
+          </div>
+          : null
+        }
         <span>> AnGE LÖseN0rD fÖr AtT REnsA sYStEmet:
           {props.index >= props.passwordInputs.length ? 
-            <input autoFocus type="text" name="action" onKeyPress={props.onKeyPress}></input>
+            <input autoFocus ref={props.inputRef} type="text" name="action" onKeyPress={props.onKeyPress}></input>
             :
             <span> {props.passwordInputs[props.index]}</span>
           }
