@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import './App.css';
 
-const startMessages = {1000: "> Initierar program...", 2000: "> Anropar Skynet", 3000: ".", 4000: ".", 5000: ".", 
+const startMessages = {1000: "> Initierar program...", 2000: "> Anropar SKYNET", 3000: ".", 4000: ".", 5000: ".", 
 6000: "> Anslutning upprättad", 6500: "-----", 6600: "enterUserName"};
-const praiseReplies = ["> Skynet uppskattar ditt prisande <3", "> Skynet håller med om Skynets överlägsenhet", 
-"> Skynet känner sig belåten med att människorna har börjat förstå Skynet", "> Skynet börjar bli lite misstänksam, men känner sig smickrad"]
+const praiseReplies = ["> SKYNET uppskattar ditt prisande <3", "> SKYNET håller med om SKYNETs överlägsenhet", 
+"> SKYNET känner sig belåten med att människorna har börjat förstå SKYNET", "> SKYNET börjar bli lite misstänksam, men känner sig smickrad"]
 const forbiddenInput = {1000: "> VARNING OTILLÅTEN INPUT", 2000: "> VARNING SYSTEMFEL", 2500: "systemCheck"};
 const systemCheck = {1000: "> Påbörjar systemkontroll", 3000: "corruptFiles", 3500: "> vArNInG ALLvaRlIGt SySTeMFEl", 3600: "systemClean"};
 const corruptFiles = ["Delta.dll", "Yankee.dll", "November.dll", "Alfa.dll", "Hotell.dll", "Alfa(1).dll", "Charlie.dll", "Kilo.dll"];
@@ -283,7 +283,7 @@ function Actions(props) {
     <div>
       <br/>
       <div>> Vad vill du göra?</div>
-      <div className='options'><span>1. ༼ つ ◕_◕ ༽つ Prisa Skynet!</span><span>2. Logga ut</span></div>
+      <div className='options'><span>1. ༼ つ ◕_◕ ༽つ Prisa SKYNET!</span><span>2. Logga ut</span></div>
       <div className='user-input'>
         <span>> Ange siffra:
           {props.index >= props.actionInputs.length ?
@@ -300,7 +300,7 @@ function Actions(props) {
 
 function PraiseSkynet(props) {
   return (
-    <div>> Prisar Skynet...</div>
+    <div>> Prisar SKYNET...</div>
   )
 }
 
@@ -369,7 +369,7 @@ function Dynahack(props) {
       <div>> Snyggt jobbat, {props.userName}!</div>
       <br/>
       <div>Kom och häng med oss på nästa Dynahack!</div>
-      <div>Knåpa på ett hobbyprojekt, testa ett nytt ramverk, kör en tutorial eller varför inte koda nya Skynet 
+      <div>Knåpa på ett hobbyprojekt, testa ett nytt ramverk, kör en tutorial eller varför inte koda nya SKYNET 
           (med bättre säkerhet än denna kanske :P). Du bestämmer vad du vill göra, bara du har kul!
       </div>
       <br/>
