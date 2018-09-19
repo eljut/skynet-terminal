@@ -369,8 +369,8 @@ function Dynahack(props) {
       <div>> Snyggt jobbat, {props.userName}!</div>
       <br/>
       <div>Kom och häng med oss på nästa Dynahack!</div>
-      <div>Knåpa på ett hobbyprojekt, testa ett nytt ramverk, kör en tutorial eller varför inte koda nya SKYNET 
-          (med bättre säkerhet än denna kanske :P). Du bestämmer vad du vill göra, bara du har kul!
+      <div>Knåpa på ett hobbyprojekt, testa ett nytt ramverk, kör en tutorial eller varför inte koda nya SKYNET :P. 
+        Du bestämmer vad du vill göra, bara du har kul!
       </div>
       <br/>
       <div>Var: Dynabyte's kontor</div>
